@@ -1,15 +1,17 @@
 #!/bin/bash
 set -e
 
-./start_all.sh
-./novnc_startup.sh
+# create logs directory for supervisord
+mkdir -p $HOME/logs
 
-python http_server.py > /tmp/server_logs.txt 2>&1 &
 
-STREAMLIT_SERVER_PORT=8501 python -m streamlit run computer_use_demo/streamlit.py > /tmp/streamlit_stdout.log &
+echo "Starting services..."
+supervisord -n -c $HOME/supervisord.conf &
 
+# wait for supervisord to start (longest startup time is 3 seconds)
+sleep 5
 echo "✨ Computer Use Demo is ready!"
 echo "➡️  Open http://localhost:8080 in your browser to begin"
 
-# Keep the container running
+# # Keep the container running
 tail -f /dev/null

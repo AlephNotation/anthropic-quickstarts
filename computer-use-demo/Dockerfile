@@ -6,6 +6,8 @@ ENV DEBIAN_PRIORITY=high
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install \
+    # process supervisor
+    supervisor \
     # UI Requirements
     xvfb \
     xterm \
